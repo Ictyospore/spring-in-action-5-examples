@@ -49,16 +49,7 @@ public class DesingTacoController {
 		
 		return "design";
 	
-	}
-
-//	private Ingredient filterByType(List<Ingredient> ingredients, Type type) {
-//		
-//		if()
-//		 
-//		return ingredients.stream().filter(i -> i.getType() == type);
-//
-//	}
-	
+	}	
 	
 
 }
