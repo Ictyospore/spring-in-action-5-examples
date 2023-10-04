@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(HomeController.class)
 public class HomeControllerTest {
 
 	@Autowired
