@@ -2,24 +2,31 @@ package tacos.web;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
+import tacos.Taco;
 
 @Slf4j
 @Controller
 @RequestMapping("/design")
 public class DesingTacoController {
+	
+//	org.slf4j.Logger log = LoggerFactory.getLogger(DesingTacoController.class);
 
-	@GetMapping
-	public String showDesignForm(Model model) {
+//	@GetMapping
+	@ModelAttribute
+	public String addIngredientsToModel(Model model) {
 		List<Ingredient> ingredients = Arrays.asList(
 			new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
 			new Ingredient("COTO", "Corn Tortilla", Type.WRAP),
@@ -34,22 +41,46 @@ public class DesingTacoController {
 		);
 		
 		Type[] types = Ingredient.Type.values();
+		
+		for (Type type : types) {
+			model.addAttribute(type.toString().toLowerCase(),
+			      filterByType(ingredients, type));
+		}
 
 		
-		for (Ingredient ingredient : ingredients) {
-			for (Type type : types) {
-				if(ingredient.getType() == type) {
-					model.addAttribute(type.toString().toLowerCase(), ingredient);
-				}
-			}
-		}
+//		for (Ingredient ingredient : ingredients) {
+//			for (Type type : types) {
+//				if(ingredient.getType() == type) {
+//					model.addAttribute(type.toString().toLowerCase(), ingredient);
+//				}
+//			}
+//		}
 		
 		
 		model.addAttribute("design", new Ingredient());
 		
 		return "design";
 	
-	}	
+	}
 	
+	@GetMapping
+	public String showDesignForm(Model model) {
+		model.addAttribute("design", new Taco());
+	    return "design";
+	}
+	
+//	public String processDesign(Design design) {
+//		// Save the taco design...
+//		// We'll do this in chapter 3
+//		log.info("Processing design: " + design);
+//		return "redirect:/orders/current";
+//	}
+	
+	private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
+		return ingredients
+					.stream()
+		            .filter(x -> x.getType().equals(type))
+		            .collect(Collectors.toList());
+	}
 
 }
