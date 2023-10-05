@@ -47,16 +47,7 @@ public class DesingTacoController {
 			model.addAttribute(type.toString().toLowerCase(),
 			      filterByType(ingredients, type));
 		}
-
-		
-//		for (Ingredient ingredient : ingredients) {
-//			for (Type type : types) {
-//				if(ingredient.getType() == type) {
-//					model.addAttribute(type.toString().toLowerCase(), ingredient);
-//				}
-//			}
-//		}
-		
+	
 		
 		model.addAttribute("design", new Ingredient());
 		
