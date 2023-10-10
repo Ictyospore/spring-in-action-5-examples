@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
+import tacos.Order;
 import tacos.Taco;
 import tacos.data.IngredientRepository;
+import tacos.data.TacoRepository;
 
 @Controller
 @RequestMapping("/design")
@@ -27,9 +29,12 @@ public class DesingTacoController {
 	
 	private final IngredientRepository ingredientRepo;
 	
+	private TacoRepository designRepo;
+	
 	@Autowired
-	public DesingTacoController(IngredientRepository ingredientRepo) {
+	public DesingTacoController(IngredientRepository ingredientRepo, TacoRepository designRepo) {
 		this.ingredientRepo = ingredientRepo;
+		this.designRepo = designRepo;
 	}
 
 	@ModelAttribute
@@ -52,21 +57,35 @@ public class DesingTacoController {
 	
 	}
 	
+	@ModelAttribute(name = "order")
+		public Order order() {
+		return new Order();
+	}
+	
+	@ModelAttribute(name = "taco")
+		public Taco taco() {
+		return new Taco();
+	}
+	
 	@GetMapping
 	public String showDesignForm(Model model) {
 		model.addAttribute("design", new Taco());
 	    return "design";
 	}
 	
-	public String processDesign(@Valid Taco design, Errors errors) {
+	public String processDesign(
+		@Valid Taco design,
+		Errors errors,
+		@ModelAttribute Order order
+	) {
 		
 		if (errors.hasErrors()) {
 			return "design";
 		}
 		
-		// Save the taco design...
-		// We'll do this in chapter 3
-//		log.info("Processing design: " + design);
+		Taco saved = designRepo.save(design);
+		order.addDesign(saved);
+
 		return "redirect:/orders/current";
 	}
 	
