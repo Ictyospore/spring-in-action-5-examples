@@ -1,8 +1,17 @@
 package tacos;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+
+//import lombok.AccessLevel;
+//import lombok.NoArgsConstructor;
 
 //@Data
 //@RequiredArgsConstructor
+//@NoArgsConstructor(access=AccessLevel.PRIVATE, force=true)
+@Entity
 public class Ingredient {
 
 	public Ingredient(String id, String name, Type type) {
@@ -20,8 +29,11 @@ public class Ingredient {
 
 	// Ignorer les alertes de non-initialisation
 	// Prise en charge par Lombok => Ne finctionne pas
+	@Id
 	private final String id;
 	private final String name;
+	
+	@Enumerated(EnumType.STRING)
 	private final Type type;
 	
 	public static enum Type {
