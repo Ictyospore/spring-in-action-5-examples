@@ -1,13 +1,13 @@
 package tacos.data;
 
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
 import tacos.Ingredient;
 
-public interface IngredientRepository {
+public interface IngredientRepository extends CrudRepository<Ingredient, String> {
 
-	Iterable<Ingredient> findAll();
-	
-	Ingredient findOne(String id);
-	
-	Ingredient save(Ingredient ingredient);
 	
 }
